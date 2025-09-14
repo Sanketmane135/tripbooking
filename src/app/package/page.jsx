@@ -153,7 +153,7 @@ useEffect(() => {
                   
                 </section>
 
-                {/* Trip Highlights */}
+               
                 <section>
                   <h2 className="text-3xl font-bold mb-4 text-gray-700">Trip Highlights</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

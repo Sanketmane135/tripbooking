@@ -29,10 +29,8 @@ function Hero() {
 
   return (
     <section
-      className={`relative flex h-[90vh] items-center justify-center bg-cover bg-center text-center transition-opacity duration-1000 ${
-        fade ? 'opacity-0' : 'opacity-100'
-      }`}
-      style={{ backgroundImage: `url(${images[currentIndex]})` }}
+      className={`relative flex h-[90vh] items-center justify-center bg-cover bg-center text-center `}
+      style={{ backgroundImage: `url("/herobg6.jpg")` }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/40" />

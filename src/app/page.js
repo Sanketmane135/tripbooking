@@ -1,103 +1,189 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useRef, useState } from "react";
+import Link from "next/link";
+import Hero from "../component/hero";
+import Packages from "../component/packages";
+import Customize from "../component/customize";
+import Features from "../component/features";
+import Footer from "../component/footer";
+
+export default function HomePage() {
+  const { data: session } = useSession();
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Refs for sections
+  const packagesRef = useRef(null);
+  const customizeRef = useRef(null);
+
+  // Scroll function
+  const scrollToSection = (ref) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+    setIsOpen(false); // close mobile menu after click
+  };
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div>
+      <header className="bg-white shadow-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+          {/* Logo */}
+          <div className="flex items-center">
+            <span className="ml-2 text-xl font-semibold text-gray-800">
+              <img src={"/logo.png"} alt="Logo" className="h-8 inline mr-2" />
+              BagPack
+            </span>
+          </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          {/* Hamburger for Mobile */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-700 focus:outline-none"
+            >
+              {isOpen ? (
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
+
+          {/* Desktop Menu */}
+          <nav className="hidden space-x-6 md:flex items-center">
+            <button
+              onClick={() => scrollToSection(packagesRef)}
+              className="text-gray-700 hover:text-red-600"
+            >
+              Packages
+            </button>
+            <button
+              onClick={() => scrollToSection(customizeRef)}
+              className="text-gray-700 hover:text-red-600"
+            >
+              Customize Trip
+            </button>
+            <Link href="/dashboard" className="text-gray-700 hover:text-red-600">
+              My Dashboard
+            </Link>
+            <Link href="/contact" className="text-gray-700 hover:text-red-600">
+              Contact
+            </Link>
+            <Link href="/reviews" className="text-gray-700 hover:text-red-600">
+              Reviews
+            </Link>
+            <span className="text-gray-400">|</span>
+            {session ? (
+              <div className="w-auto flex items-center gap-2">
+                <img
+                  src={session.user?.image}
+                  alt="profile pic"
+                  className="w-8 h-8 rounded-2xl"
+                />
+                <p>{session.user?.name}</p>
+                <button
+                  onClick={() => signOut()}
+                  className="border p-1 rounded"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => signIn("google")}
+                className="flex items-center gap-1 border p-1 rounded"
+              >
+                Login
+              </button>
+            )}
+          </nav>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Mobile Menu */}
+        {isOpen && (
+          <div className="flex flex-col space-y-2 px-4 pb-4 md:hidden">
+            <button
+              onClick={() => scrollToSection(packagesRef)}
+              className="block text-gray-700 hover:text-red-600 text-left"
+            >
+              Packages
+            </button>
+            <button
+              onClick={() => scrollToSection(customizeRef)}
+              className="block text-gray-700 hover:text-red-600 text-left"
+            >
+              Customize Trip
+            </button>
+            <Link href="/dashboard" className="block text-gray-700 hover:text-red-600">
+              My Dashboard
+            </Link>
+            <Link href="/contact" className="block text-gray-700 hover:text-red-600">
+              Contact
+            </Link>
+            <Link href="/reviews" className="block text-gray-700 hover:text-red-600">
+              Reviews
+            </Link>
+            {session ? (
+              <div className="w-full flex items-center justify-center gap-2">
+                <img
+                  src={session.user?.image}
+                  alt="profile pic"
+                  className="w-8 h-8 rounded-2xl"
+                />
+                <p>{session.user?.name}</p>
+                <button
+                  onClick={() => signOut()}
+                  className="border p-1 rounded"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => signIn("google")}
+                className="border p-2 rounded text-left items-center flex gap-2 justify-center"
+              >
+                Login
+              </button>
+            )}
+          </div>
+        )}
+      </header>
+
+      {/* Sections with refs */}
+      <Hero />
+      <div ref={packagesRef}>
+        <Packages />
+      </div>
+      <div ref={customizeRef}>
+        <Customize />
+      </div>
+      <Features />
+      <Footer />
     </div>
   );
 }

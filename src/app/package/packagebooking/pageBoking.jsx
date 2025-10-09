@@ -196,7 +196,15 @@ function PageBooking() {
               <h2 className="text-2xl font-bold mb-4 text-gray-700">
                 Payment QR
               </h2>
-              <Qrcode amount={amount} />
+              {
+                amount>=100000?(<><p className="mb-4 text-red-600 font-medium">
+                    Note: Amount exceeds ₹100,000. Please contact support for
+                    alternative payment methods.
+                    <p className="text-xl">UPI ID</p>
+                    <h2 className="text-amber-800 p-2 border border-dashed bg-amber-100">sanketmane0407@okhdfcbank</h2>
+                  </p></>):(<Qrcode amount={amount} />)
+              }
+              {/* <Qrcode amount={amount} /> */}
               <div className="w-full flex flex-col items-center justify-center mt-4">
                 <label className="text-lg">
                   Enter{" "}

@@ -96,7 +96,7 @@ function page() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/">
-            <button variant="success" size="lg" className=''>
+            <button variant="success" size="lg" className='p-2 border bg-pink-500 text-white rounded'>
               Go to Home
             </button>
             </Link>

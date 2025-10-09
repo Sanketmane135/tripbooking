@@ -164,7 +164,8 @@ const giveReview = () => {
 
       {/* Review Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+       <div className="fixed inset-0 backdrop-blur-md bg-transparent flex items-center justify-center z-50">
+
           <div className="bg-white w-11/12 max-w-md p-6 rounded-xl shadow-lg">
             <h2 className="text-xl font-bold mb-4">Write a Review</h2>
             <form onSubmit={handleSubmit} className="space-y-4">

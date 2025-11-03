@@ -102,7 +102,7 @@ const PackageSkeleton = () => {
                   </p>
 
                   <button onClick={()=>{router.push(`/package?id=${v._id}`)}} className="mt-4 px-5 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md shadow hover:bg-indigo-700 transition">
-                    Know More
+                    Book Now
                   </button>
                 </div>
             </div>

@@ -40,7 +40,7 @@ function PackageWrapped() {
   }, [currentId]);
 
 useEffect(() => {
-  console.log("Fetched packages:", packages);
+  // console.log("Fetched packages:", packages);
 }, [packages]);
 
 

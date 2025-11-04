@@ -26,7 +26,7 @@ const [formData, setFormData] = useState({
       setreviewLoading(true);
       try {
         const res = await axios.get("https://bagpackbackendweb.onrender.com/api/bagpack/getreviews");
-        console.log("✅ fetched reviews:", res.data.reviews);
+        // console.log("✅ fetched reviews:", res.data.reviews);
         setReviews(res.data.reviews); // ✅ correct key
         
       } catch (err) {
@@ -56,7 +56,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   try {
     const res = await axios.post("https://bagpackbackendweb.onrender.com/api/bagpack/addreview", formData);
-    console.log("✅ Review submitted:", res.data);
+    // console.log("✅ Review submitted:", res.data);
 
     const newReview = {
       _id: res.data.review?._id || Date.now().toString(), // fallback if no id

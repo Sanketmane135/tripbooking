@@ -78,7 +78,7 @@ function Page() {
           status: "Under Approval",
         }
       );
-      console.log("Trip added:", res.data);
+      // console.log("Trip added:", res.data);
       router.push("/customize/requested");
     } catch (error) {
     

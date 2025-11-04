@@ -24,7 +24,7 @@ function Page() {
         const res = await axios.get(
           `https://bagpackbackendweb.onrender.com/api/bagpack/getbookedtrips/${session.user.email}`
         );
-        console.log("✅ Trips fetched:", res.data.packages);
+        // console.log("✅ Trips fetched:", res.data.packages);
         setTrips(res.data.packages); // store trips from backend
       } catch (err) {
         
@@ -53,7 +53,7 @@ useEffect(() => {
       const res = await axios.get(
         `https://bagpackbackendweb.onrender.com/api/bagpack/getCustomTripById/${session.user.email}`
       );
-      console.log("✅ fetched custom Trips:", res.data.trips);
+      // console.log("✅ fetched custom Trips:", res.data.trips);
 
       // ✅ Only update state if trips exist and is an array or single object
       if (Array.isArray(res.data.trips) && res.data.trips.length > 0) {
@@ -132,7 +132,7 @@ const customStatusChange = async (id) => {
       }
     );
 
-    console.log("Trip status updated:", response.data);
+    // console.log("Trip status updated:", response.data);
 
     // update local state
     setCustTrips((prevTrips) =>
@@ -246,7 +246,7 @@ const customStatusChange = async (id) => {
       }
     );
 
-    console.log("Trip status updated:", response.data);
+    // console.log("Trip status updated:", response.data);
 
     // update local state
     setTrips((prevTrips) =>

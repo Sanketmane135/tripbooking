@@ -18,7 +18,7 @@ const [formData, setFormData] = useState({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
+    // console.log("Form Submitted:", formData);
     // 👉 You can send formData to an API route later (e.g., /api/contact)
   };
 

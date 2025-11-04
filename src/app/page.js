@@ -1,5 +1,4 @@
 "use client";
-
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 import Link from "next/link";
@@ -10,7 +9,7 @@ import Features from "../component/features";
 import Footer from "../component/footer";
 
 export default function HomePage() {
-  const { data: session } = useSession();
+  const { data: session , status} = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
   // Refs for sections
@@ -20,7 +19,7 @@ export default function HomePage() {
   // Scroll function
   const scrollToSection = (ref) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
-    setIsOpen(false); // close mobile menu after click
+    setIsOpen(false); 
   };
 
   return (
@@ -97,29 +96,41 @@ export default function HomePage() {
               Reviews
             </Link>
             <span className="text-gray-400">|</span>
-            {session ? (
-              <div className="w-auto flex items-center gap-2">
-                <img
-                  src={session.user?.image}
-                  alt="profile pic"
-                  className="w-8 h-8 rounded-2xl"
-                />
-                <p>{session.user?.name}</p>
+
+            {
+              status === "loading" ? (
                 <button
-                  onClick={() => signOut()}
-                  className="border p-1 rounded"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => signIn("google")}
-                className="flex items-center gap-1 border p-1 rounded"
-              >
-                Login
-              </button>
-            )}
+                  disabled
+                  className="w-[13.5rem] h-8 rounded-md bg-gray-200 animate-pulse dark:bg-gray-400"
+       
+                ></button>
+              ) : (
+                 session ? (
+                  <div className="w-auto flex items-center gap-2">
+                    <img
+                      src={session.user?.image}
+                      alt="profile pic"
+                      className="w-8 h-8 rounded-2xl"
+                    />
+                    <p>{session.user?.name}</p>
+                    <button
+                      onClick={() => signOut()}
+                      className="border p-1 rounded"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => signIn("google")}
+                    className="flex items-center gap-1 border p-1 rounded"
+                  >
+                    Login
+                  </button>
+                )
+                  )
+                }
+           
           </nav>
         </div>
 

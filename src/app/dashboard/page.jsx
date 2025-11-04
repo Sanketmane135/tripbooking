@@ -4,10 +4,11 @@ import { signIn, useSession } from "next-auth/react";
 import axios from 'axios';
 
 function Page() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [tab, setTab] = useState('package');
   const [modal, showModal] = useState(false);
   const [modalNo,setModalNo] = useState(0);
+  
 
   // ✅ states for trips, error, and loading
   const [trips, setTrips] = useState([]);
@@ -76,7 +77,7 @@ useEffect(() => {
 
   function BuiltPackage() {
     return (
-      <div className='w-full flex flex-wrap  gap-6'>
+      <div className='w-full grid grid-cols-1 md:grid-cols-3  gap-6'>
         {
           trips.length === 0 && loading==false ? (
             <p className="text-gray-500">No booked packages found.</p>
@@ -99,7 +100,8 @@ useEffect(() => {
 
                   {/* Price & Actions */}
                   <div className="flex justify-between items-center">
-                    <p className="text-xl font-bold flex items-center text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z"/></svg>{v.totalAmount}</p>
+                    <p className="text-xl font-bold flex items-center text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z"/></svg>
+                    {v.totalAmount*(v.adultsId+v.childId)}</p>
                     <button className="px-4 py-2 border rounded-lg text-gray-700"
                      onClick={() => {showModal(true); setModalNo(i);  }}
                   >
@@ -262,6 +264,15 @@ const customStatusChange = async (id) => {
 
   const content = tab === 'package' ? <BuiltPackage /> : <Customize />;
 
+
+  if(status==="loading"){
+    return (
+      <div className='w-full h-screen flex items-center justify-center'>
+        
+        <p>Loading data...</p>
+      </div>
+    )
+  }
   return (
     <div className="p-6 max-w-7xl mx-auto relative">
       {/* ✅ Modal Overlay */}
